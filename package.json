@@ -29,7 +29,7 @@
         "underscore" : "1.7.0"
     },
     "browser" : {
-        "phaser" : "./application/vendor/phaser.min.js"
+        "phaser" : "./shims/phaser.js"
     },
     "browserify-shim" : {
         "phaser" : "Phaser"
