@@ -14,7 +14,12 @@ if ( ! gutil.env.env) {
 
 gulp.task('default', ['build', 'connect:app']);
 
-gulp.task('build', ['copyPhaserMin', 'browserify', 'assets']);
+gulp.task('build', ['copyIndex', 'copyPhaserMin', 'browserify', 'assets']);
+
+gulp.task('copyIndex', function() {
+    return gulp.src('./application/index.html')
+        .pipe(gulp.dest('./build'));
+});
 
 gulp.task('copyPhaserMin', function() {
     return gulp.src('./node_modules/phaser/build/phaser.min.js')

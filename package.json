@@ -19,7 +19,8 @@
         "underscore" : "1.7.0"
     },
     "browser" : {
-        "phaser" : "./application/vendor/phaser.min.js"
+        "phaser" : "./application/vendor/phaser.min.js",
+        "nw.gui" : "./application/vendor/nw.gui.js"
     },
     "browserify-shim" : {
         "phaser" : "Phaser"
