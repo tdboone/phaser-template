@@ -20,98 +20,101 @@ var gulp        = require('gulp'),
 var watching = false;
 
 paths = {
-  assets: 'application/assets/**/*',
-  css:    'application/css/*.css',
-  libs:   [
-    './node_modules/phaser/build/phaser.js'
-  ],
-  js:     ['application/src/*.js', 'application/src/**/*.js'],
-  entry: './application/src/main.js',
-  dist:   './build/'
+    assets: [
+        '.application/assets/**/*',
+        '!.application/assets/psds/**'
+    ],
+    css:    'application/css/*.css',
+    libs:   [
+        './node_modules/phaser/build/phaser.js'
+    ],
+    js:     ['application/src/*.js', 'application/src/**/*.js'],
+    entry: './application/src/main.js',
+    dist:   './build/'
 };
 
 gulp.task('clean', function () {
-  return gulp.src(paths.dist, {read: false})
-    .pipe(rimraf({ force: true }))
-    .on('error', gutil.log);
+    return gulp.src(paths.dist, {read: false})
+        .pipe(rimraf({ force: true }))
+        .on('error', gutil.log);
 });
 
 gulp.task('copy', ['clean'], function () {
-  gulp.src(paths.assets)
-    .pipe(gulp.dest(paths.dist + 'assets'))
-    .on('error', gutil.log);
+    gulp.src(paths.assets)
+        .pipe(gulp.dest(paths.dist + 'assets'))
+        .on('error', gutil.log);
 });
 
 gulp.task('copylibs', ['clean'], function () {
-  gulp.src(paths.libs)
-    .pipe(gulpif(!watching, uglify({outSourceMaps: false})))
-    .pipe(gulp.dest(paths.dist + 'js/lib'))
-    .on('error', gutil.log);
+    gulp.src(paths.libs)
+        .pipe(gulpif(!watching, uglify({outSourceMaps: false})))
+        .pipe(gulp.dest(paths.dist + 'js/lib'))
+        .on('error', gutil.log);
 });
 
 gulp.task('compile', ['clean'], function () {
-  var bundler = browserify({
-    cache: {}, packageCache: {}, fullPaths: true,
-    entries: [paths.entry],
-    debug: watching
-  });
+    var bundler = browserify({
+        cache: {}, packageCache: {}, fullPaths: true,
+        entries: [paths.entry],
+        debug: watching
+    });
 
-  var bundlee = function() {
-    return bundler
-      .bundle()
-      .pipe(source('main.min.js'))
-      .pipe(jshint('.jshintrc'))
-      .pipe(jshint.reporter('default'))
-      .pipe(gulpif(!watching, streamify(uglify({outSourceMaps: false}))))
-      .pipe(gulp.dest(paths.dist))
-      .on('error', gutil.log);
-  };
+    var bundlee = function() {
+        return bundler
+            .bundle()
+            .pipe(source('main.min.js'))
+            .pipe(jshint('.jshintrc'))
+            .pipe(jshint.reporter('default'))
+            .pipe(gulpif(!watching, streamify(uglify({outSourceMaps: false}))))
+            .pipe(gulp.dest(paths.dist))
+            .on('error', gutil.log);
+    };
 
-  if (watching) {
-    bundler = watchify(bundler);
-    bundler.on('update', bundlee);
-  }
+    if (watching) {
+        bundler = watchify(bundler);
+        bundler.on('update', bundlee);
+    }
 
-  return bundlee();
+    return bundlee();
 });
 
 gulp.task('minifycss', ['clean'], function () {
- gulp.src(paths.css)
-    .pipe(gulpif(!watching, minifycss({
-      keepSpecialComments: false,
-      removeEmpty: true
-    })))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(gulp.dest(paths.dist))
-    .on('error', gutil.log);
+    gulp.src(paths.css)
+        .pipe(gulpif(!watching, minifycss({
+            keepSpecialComments: false,
+            removeEmpty: true
+        })))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest(paths.dist))
+        .on('error', gutil.log);
 });
 
 gulp.task('processhtml', ['clean'], function() {
-  return gulp.src('application/index.html')
-    .pipe(processhtml('index.html'))
-    .pipe(gulp.dest(paths.dist))
-    .on('error', gutil.log);
+    return gulp.src('application/index.html')
+        .pipe(processhtml('index.html'))
+        .pipe(gulp.dest(paths.dist))
+        .on('error', gutil.log);
 });
 
 gulp.task('minifyhtml', ['processhtml'], function() {
-  gulp.src('dist/index.html')
-    .pipe(gulpif(!watching, minifyhtml()))
-    .pipe(gulp.dest(paths.dist))
-    .on('error', gutil.log);
+    gulp.src('dist/index.html')
+        .pipe(gulpif(!watching, minifyhtml()))
+        .pipe(gulp.dest(paths.dist))
+        .on('error', gutil.log);
 });
 
 gulp.task('html', ['build'], function(){
-  gulp.src('dist/*.html')
-    .pipe(connect.reload())
-    .on('error', gutil.log);
+    gulp.src('dist/*.html')
+        .pipe(connect.reload())
+        .on('error', gutil.log);
 });
 
 gulp.task('connect', function () {
-  connect.server({
-    root: ['./build'],
-    port: 9000,
-    livereload: true
-  });
+    connect.server({
+        root: ['./build'],
+        port: 9000,
+        livereload: true
+    });
 });
 
 gulp.task('connect:examples', function() {
@@ -123,8 +126,8 @@ gulp.task('connect:examples', function() {
 });
 
 gulp.task('watch', function () {
-  watching = true;
-  return gulp.watch(['./application/index.html', paths.css, paths.js], ['build', 'html']);
+    watching = true;
+    return gulp.watch(['./application/index.html', paths.css, paths.js], ['build', 'html']);
 });
 
 gulp.task('default', ['connect', 'watch', 'build']);
