@@ -21,8 +21,8 @@ var watching = false;
 
 paths = {
     assets: [
-        '.application/assets/**/*',
-        '!.application/assets/psds/**'
+        './application/assets/**/*.*',
+        '!./application/assets/psds/**'
     ],
     css:    'application/css/*.css',
     libs:   [
