@@ -114,6 +114,14 @@ gulp.task('connect', function () {
   });
 });
 
+gulp.task('connect:examples', function() {
+    return connect.server({
+        root       : 'examples/examples',
+        port       : 8000,
+        livereload : false
+    });
+});
+
 gulp.task('watch', function () {
   watching = true;
   return gulp.watch(['./application/index.html', paths.css, paths.js], ['build', 'html']);
