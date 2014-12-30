@@ -7,7 +7,7 @@ var Phaser = require('phaser');
 
 // function preload()
 // {
-// 	game.load.image('')
+//     game.load.image('')
 // }
 
 // function create()
