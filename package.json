@@ -9,17 +9,27 @@
         "connect-history-api-fallback" : "0.0.5",
         "gulp"                         : "3.8.10",
         "gulp-connect"                 : "2.2.0",
+        "gulp-if"                      : "1.2.5",
         "gulp-ignore"                  : "1.2.1",
+        "gulp-jshint"                  : "1.9.0",
+        "gulp-minify-css"              : "0.3.7",
+        "gulp-minify-html"             : "0.1.7",
         "gulp-notify"                  : "2.1.0",
+        "gulp-processhtml"             : "1.0.2",
+        "gulp-rename"                  : "1.2.0",
+        "gulp-rimraf"                  : "0.1.1",
+        "gulp-streamify"               : "0.0.5",
+        "gulp-uglify"                  : "0.3.1",
         "gulp-util"                    : "3.0.1",
-        "vinyl-source-stream"          : "1.0.0"
+        "vinyl-source-stream"          : "1.0.0",
+        "watchify"                     : "1.0.2"
     },
     "dependencies" : {
         "phaser"     : "2.2.1",
         "underscore" : "1.7.0"
     },
     "browser" : {
-        "phaser" : "./application/vendor/phaser.min.js"
+        "phaser" : "./shims/phaser.js"
     },
     "browserify-shim" : {
         "phaser" : "Phaser"
